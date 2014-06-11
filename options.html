@@ -1,0 +1,87 @@
+<!-- Copyright (C) 2014  Joseph DeBono
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html>
+	<head>
+		<title>Music Bubbles</title>
+		<link href='http://fonts.googleapis.com/css?family=Roboto:300,300italic,900,900italic' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="assets/options.css" media="all" />
+		<meta name="twitter:widgets:csp" content="on">	
+	</head>
+	<body>
+	<div class="wrapper">
+		<h1>Music Bubbles</h1>
+		<div><a href="tutorial.html">Rewatch Tutorial</a> | <a id="reset" href="#">Reset Data</a> <span id="reset-message"></span></div>
+		<div class="col">
+			<h3>Options</h3>
+			<div>
+				<input id="hideOnDisabled" name="hideOnDisabled" type="checkbox" /><label for="hideOnDisabled">Hide Bubble when Google Music is closed</label> 
+			</div>
+
+			<br/>
+			<h3>Edit Blacklist</h3>
+				<select name="blacklist" id="blacklist" size="20"></select><br />
+				<button id="removeItem">Remove</button>			
+			<br/>
+		</div>
+		<div class="col">
+			<h3>Changelist</h3>
+			<div class="changelist">v1.0.2:
+			<ul>
+				<li>Fixed bug introduced in previous version which causes the bubble to stop working</li>
+			</ul>
+			<div class="changelist">v1.0.1:
+			<ul>
+				<li>Fixed compatibility with some sites</li>
+			</ul>
+			<div class="changelist">v1.0:
+			<ul>
+				<li>Added changelist</li>
+				<li>Added artwork in new 'card' redesign when hovering over bubble</li>
+				<li>Double click on bubble to go to Google Music tab, also works when bubble is disconnected</li>
+				<li>Hide Music Bubble whenever Google Music is not open (from the options menu)</li>
+				<li>Move\hide bubble when not connected to Google Music by long clicking it</li>
+				<li>Updated tutorial</li>
+				<li>Better animations</li>
+				<li>Loads of bug fixes and better website integration</li>
+			</ul>
+			</div>
+		</div>
+		<div id="social-container">
+			<div>				
+				<div class="g-plus" data-action="share" data-annotation="bubble" data-href="https://chrome.google.com/webstore/detail/music-bubbles/pjimkanhpmeohjmkdjefoodcmigdbcop"></div>
+			</div>
+			<div>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://chrome.google.com/webstore/detail/music-bubbles/pjimkanhpmeohjmkdjefoodcmigdbcop" data-text="Music Bubbles - Quick Controls for Google Music">Tweet</a>
+			</div>
+			<div>			
+				<a id="fb_link" href="http://www.facebook.com/sharer/sharer.php?u=https://chrome.google.com/webstore/detail/music-bubbles/pjimkanhpmeohjmkdjefoodcmigdbcop"><div class="pluginButton"><div><div class="pluginButtonContainer"><div class="pluginButtonImage"><button type="submit"><i class="pluginButtonIcon img sp_plugin-button sx_plugin-button_favblue"></i></button></div><span class="pluginButtonLabel">Share</span></div></div></div></a>
+			</div>
+			<div>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+				<input type="hidden" name="cmd" value="_s-xclick">
+				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+				">
+				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="assets/options.js"></script>	
+	<script type="text/javascript" src="https://apis.google.com/js/platform.js" async="true"></script>
+	<script type="text/javascript" src="https://platform.twitter.com/widgets.js" async="true"></script>	
+	</body>
+</html>
