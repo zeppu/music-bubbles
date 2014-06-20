@@ -1,5 +1,11 @@
 <div id="gm-bubble-content" data-state="{status}" data-hideoption="{hide}" style="{position}">
 	<style>
+	@media print {
+	    #gm-bubble-content {
+	        display: none !important;
+	    }
+	}
+
 	#gm-bubble-content {		
 		position: fixed;
 		right: 100px;
