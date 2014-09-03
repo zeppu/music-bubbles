@@ -24,44 +24,57 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 	<div class="wrapper">
 		<h1>Music Bubbles</h1>
 		<div><a href="tutorial.html">Rewatch Tutorial</a> | <a id="reset" href="#">Reset Data</a> <span id="reset-message"></span></div>
-		<div class="col">
-			<h3>Options</h3>
-			<div>
-				<input id="hideOnDisabled" name="hideOnDisabled" type="checkbox" /><label for="hideOnDisabled">Hide Bubble when Google Music is closed</label> 
-			</div>
+		<div class="col-container">
+			<div class="col">
+				<h3>Options</h3>
+				<div>
+					<input id="hideOnDisabled" name="hideOnDisabled" type="checkbox" /><label for="hideOnDisabled">Hide Bubble when Google Music is closed</label> 
+				</div>
 
-			<br/>
-			<h3>Edit Blacklist</h3>
-				<select name="blacklist" id="blacklist" size="20"></select><br />
-				<button id="removeItem">Remove</button>			
-			<br/>
-		</div>
-		<div class="col">
-			<h3>Changelist</h3>
-			<div class="changelist">v1.1:
-			<ul>
-				<li>Added support for <i>5-Star Ratings</i> lab</li>
-				<li>Due to concerns about required permissions, Music Bubbles is now open source! Code is available for everyone to see <a href="https://github.com/zeppu/music-bubbles">here</a></li>
-			</ul>
-			<div class="changelist">v1.0.2:
-			<ul>
-				<li>Fixed bug introduced in previous version which causes the bubble to stop working</li>
-			</ul>
-			<div class="changelist">v1.0.1:
-			<ul>
-				<li>Fixed compatibility with some sites</li>
-			</ul>
-			<div class="changelist">v1.0:
-			<ul>
-				<li>Added changelist</li>
-				<li>Added artwork in new 'card' redesign when hovering over bubble</li>
-				<li>Double click on bubble to go to Google Music tab, also works when bubble is disconnected</li>
-				<li>Hide Music Bubble whenever Google Music is not open (from the options menu)</li>
-				<li>Move\hide bubble when not connected to Google Music by long clicking it</li>
-				<li>Updated tutorial</li>
-				<li>Better animations</li>
-				<li>Loads of bug fixes and better website integration</li>
-			</ul>
+				<br/>
+				<h3>Edit Blacklist</h3>
+					<select name="blacklist" id="blacklist" size="20"></select><br />
+					<button id="removeItem">Remove</button>			
+				<br/>
+			</div>
+			<div class="col" id="changelist-container">
+				<h3>Changelist</h3>
+				<div class="changelist">v1.2:
+					<ul>
+						<li>When opening multiple Google Play Music tabs, the bubble will take control of the tab which is playing music</li>
+						<li>Music bubbles will not be shown when printing</li>
+						<li>Minor styling changes</li>
+						<li>Bugfixes</li>
+					</ul>
+				</div>
+				<div class="changelist">v1.1:
+					<ul>
+						<li>Added support for <i>5-Star Ratings</i> lab</li>
+						<li>Due to concerns about required permissions, Music Bubbles is now open source! Code is available for everyone to see <a href="https://github.com/zeppu/music-bubbles">here</a></li>
+					</ul>
+				</div>
+				<div class="changelist">v1.0.2:
+					<ul>
+						<li>Fixed bug introduced in previous version which causes the bubble to stop working</li>
+					</ul>
+				</div>
+				<div class="changelist">v1.0.1:
+					<ul>
+						<li>Fixed compatibility with some sites</li>
+					</ul>
+				</div>
+				<div class="changelist">v1.0:
+					<ul>
+						<li>Added changelist</li>
+						<li>Added artwork in new 'card' redesign when hovering over bubble</li>
+						<li>Double click on bubble to go to Google Music tab, also works when bubble is disconnected</li>
+						<li>Hide Music Bubble whenever Google Music is not open (from the options menu)</li>
+						<li>Move\hide bubble when not connected to Google Music by long clicking it</li>
+						<li>Updated tutorial</li>
+						<li>Better animations</li>
+						<li>Loads of bug fixes and better website integration</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div id="social-container">

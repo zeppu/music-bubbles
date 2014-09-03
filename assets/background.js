@@ -67,7 +67,8 @@ function messageContentScript(data) {
 
 }
 
-function processGMUpdate(request) {
+function processGMUpdate(request, sender) {
+	gm_port = sender;
 	if (request.disabled) {
 		gm_player.disabled = true;		
 		messageContentScript(gm_player);

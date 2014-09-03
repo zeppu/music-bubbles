@@ -51,6 +51,17 @@ body {
 	padding: 15px;
 }
 
+.col-container {
+	position: absolute;
+	top: 85px;
+	bottom: 85px;
+}
+
+#changelist-container {
+	height: 100%;
+	overflow-y: auto;
+}
+
 #social-container {
 	bottom: 0;
 	position: absolute;
