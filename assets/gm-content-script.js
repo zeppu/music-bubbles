@@ -67,8 +67,7 @@ function performCommand(request) {
 
 	if (request.scroll != null) {
 		volume = document.getElementById("volume");		
-		mouseEvent = document.createEvent("WheelEvent");
-		mouseEvent.initWebKitWheelEvent(request.scroll); 		
+		mouseEvent = new WheelEvent("mousewheel", { wheelDeltaY: request.scroll });		
   		volume.dispatchEvent(mouseEvent);
 	}
 
