@@ -19,6 +19,10 @@ var blacklisted = false;
 var retry = 0
 
 function loadExtension(data) {
+	if (!document.body) {
+		return;
+	}
+	
 	var gm_Bubble_Control = {
 		playPause 	: function () {
 			chrome.runtime.sendMessage({command: 'play-pause'});
