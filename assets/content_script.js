@@ -101,9 +101,10 @@ function update(data) {
 	}
 
 	if (data.songData != null && data.songData.songTitle != null) {
-		document.getElementById("gm-bubble-label").setAttribute("data-active", "true")
+		document.getElementById("gm-bubble-label").setAttribute("data-active", "true");
 		document.getElementById("gm-bubble-artist").textContent = data.songData.artist;
 		document.getElementById("gm-bubble-song-title").textContent = data.songData.songTitle;
+		var updated = data.updated;
 		document.getElementById("gm-bubble-album-art").src = data.songData.albumArtUrl;
 		progressBar.start(data.songData);
 		if (data.songData.liked) {
@@ -112,6 +113,9 @@ function update(data) {
 			element.setAttribute("data-rating", "disliked");
 		} else {
 			element.removeAttribute("data-rating")
+		}
+		if (updated) {
+			showToast(element);
 		}
 	} else {
 		document.getElementById("gm-bubble-label").setAttribute("data-active", "false")	
@@ -122,6 +126,13 @@ function update(data) {
 function setLocation(obj) {
 	chrome.storage.sync.set({ position: obj }, function() {});
 	chrome.runtime.sendMessage( { position : obj });
+}
+
+function showToast(element) {
+	element.classList.add("gm-bubble-notify");
+	setTimeout(function() {
+		element.classList.remove("gm-bubble-notify");
+	}, 5000);
 }
 
 
@@ -173,7 +184,7 @@ var progressBar = new function() {
 
 		self.ctx.beginPath();
 		self.ctx.strokeStyle = '#fff';
-		self.ctx.lineCap = 'square';
+		self.ctx.lineCap = 'butt';
 		self.ctx.closePath();
 		self.ctx.fill();
 		self.ctx.lineWidth = 4.5;

@@ -38,7 +38,9 @@ function removeItem() {
 }
 
 function onDataLoaded(data) {
-	document.getElementById('hideOnDisabled').checked = data.hideOnDisabled;	
+	document.getElementById('hideOnDisabled').checked = data.hideOnDisabled;
+	document.getElementById('showTrackTitle').checked = data.showTrackTitle;
+
 	if (data.blacklisted) {
 		onSitesLoaded(data);
 	}
@@ -69,11 +71,16 @@ function saveOption(data) {
 function onHideOnDisabledClick() {
 	saveOption({ hideOnDisabled : this.checked});
 }
+
+function onShowTrackTitleClick() {
+	saveOption({ showTrackTitle : this.checked });
+}
 	
 loadData();
 document.getElementById("removeItem").onclick=removeItem;
 document.getElementById("reset").onclick=resetData;
 document.getElementById('hideOnDisabled').onclick=onHideOnDisabledClick;
+document.getElementById('showTrackTitle').onclick=onShowTrackTitleClick;
 document.getElementById('fb_link').onclick=function() {
 	window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); 
 	return false;

@@ -67,6 +67,16 @@ function messageContentScript(data) {
 
 }
 
+function trackUpdated(newData) {
+	updated = false;
+	if (gm_player["songData"] != null) {
+		oldData = gm_player["songData"];
+		updated = !(newData.songTitle == oldData.songTitle && newData.artist == oldData.artist);
+	}
+
+	return updated;
+}
+
 function processGMUpdate(request, sender) {
 	gm_port = sender;
 	if (request.disabled) {
@@ -75,16 +85,20 @@ function processGMUpdate(request, sender) {
 		return;
 	}
 
-	gm_player.disabled = false;
+	var data = JSON.parse(JSON.stringify(gm_player));
+	data.disabled = false;
 
 	if (request.playing != null) {
-		gm_player.playing = request.playing;
+		data.playing = request.playing;
 	}
 
 	if (request.songData != null) {
-		gm_player.songData = request.songData;
+		data.updated = trackUpdated(request.songData) && gm_player.showTrackTitle;
+		data.songData = request.songData;
 	}
-		messageContentScript( gm_player );		
+
+	messageContentScript( data );	
+	gm_player = data;	
 }
 
 var bubble = new function() {
@@ -116,9 +130,14 @@ var bubble = new function() {
     	gm_player.hideOnDisabled = data.hideOnDisabled;
     }
 
+    this.shouldShowTrackTitle = function(data) {
+    	gm_player.showTrackTitle = data.showTrackTitle;
+    }
+
     this.refresh = function() {
 		chrome.storage.sync.get("position", self.generatePosition);
 		chrome.storage.sync.get("hideOnDisabled", self.shouldHideOnDisabled);
+		chrome.storage.sync.get("showTrackTitle", self.shouldShowTrackTitle);
 	}
 
 	self.refresh();
@@ -168,14 +187,24 @@ function getVersion() {
 	return details.version;
 }
 
+function defaultSettings() {
+	data = { 
+		showTrackTitle : true
+	};
+	chrome.storage.sync.set(data);
+	bubble.refresh();
+}
+
 chrome.storage.sync.get("version", function(data) {
 	prevVersion = data.version;
 	if (prevVersion == undefined) {
 		prevVersion = localStorage['version'];
+		defaultSettings();
 	}	
 	var currVersion = getVersion();	
 	chrome.storage.sync.set({version : currVersion });
 	if (currVersion != prevVersion && prevVersion != null) {
+		defaultSettings();
 		chrome.tabs.create({
 			url: chrome.extension.getURL('options.html')
 		});
@@ -183,8 +212,6 @@ chrome.storage.sync.get("version", function(data) {
 });
 
 chrome.storage.sync.get("tutorial", function(data) {
-	console.log("Got data");
-	console.log(data);
 	if (data.tutorial != "1") {
 		chrome.tabs.create({
 			url: chrome.extension.getURL('tutorial.html')
