@@ -53,7 +53,7 @@
 		background-repeat:no-repeat;
 		background-position:center; 
 		background-size: 70%;
-		z-index: 999;
+		z-index: 10;
 		top: 4px;
 		left: 4px;
 	}
@@ -87,7 +87,7 @@
 		left: calc(50% - 17px);
 		width: 34px;
 		height: 34px;
-		z-index: 975;
+		z-index: 5;
 		opacity: 0;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -117,7 +117,7 @@
 
 	.gm-bubble-button:hover {
 		box-shadow: 0 0 3px 1px #3c3c3c;
-		z-index: 1000;
+		z-index: 20;
 	}
 
 	#gm-bubble-content .gm-bubble-small {
@@ -129,7 +129,7 @@
 	}
 
 	.gm-bubble-small:hover {
-		z-index: 1000;
+		z-index: 20;
 	}
 
 	.gm-bubble-button:hover #gm-bubble-blacklist:before {
@@ -203,10 +203,6 @@
 		opacity: 1;
 	}
 
-/*	#gm-bubble-content:not([data-state="disabled"]):hover #gm-bubble-layer:not(:hover) ~ .gm-bubble-button, #gm-bubble-main:not(:active) ~ .gm-bubble-button {
-		transition-delay: 1s;
-	}
-*/
 	/* Blacklist button */
 	#gm-bubble-main:active ~ #gm-bubble-blacklist, #gm-bubble-layer:hover ~ #gm-bubble-blacklist, #gm-bubble-blacklist:hover {
 		transition: -webkit-transform 0.70s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -228,7 +224,7 @@
 		left: 0;
 		position: absolute;
 		border-radius: 50%;
-		z-index: 950;		
+		z-index: 5;		
 		width: 64px;
 		height: 64px;
 		box-shadow: 0 1px 2px rgba(0,0,0,0.35);
@@ -237,13 +233,27 @@
 
 	#gm-bubble-main:active ~ #gm-bubble-layer, #gm-bubble-layer:hover {
 	    transition: all 0 0.4s;
-	    z-index: 10000;
+	    z-index: 15;
 	    position: absolute;
 	    top: 0;
 	    left:0;
 	    width: 64px;
 	    height: 64px;
 	    border-radius: 50%;
+	}
+
+	#gm-bubble-layer:hover:before {
+		position: absolute;
+	    top: 32px;
+	    left:-64px;
+	    width: 192px;
+	    height: 96px;
+	    content: " ";
+	    z-index: 15;
+	}
+
+	#gm-bubble-layer:hover ~ .gm-bubble-button {
+		z-index: 20;
 	}
 
 	#gm-bubble-main:active ~ #gm-bubble-progress-container {
