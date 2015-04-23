@@ -72,7 +72,7 @@ function loadExtension(data) {
 		document.getElementById('gm-bubble-dislike').onclick=gm_Bubble_Control.dislike;
 
 		document.getElementById('gm-bubble-main').onmousewheel=gm_Bubble_Control.scroll;
-		document.getElementById('gm-bubble-main').ondblclick=gm_Bubble_Control.selectPlayer;
+		document.getElementById('gm-bubble-content').ondblclick=gm_Bubble_Control.selectPlayer;
 
 
 		setDraggable();	
