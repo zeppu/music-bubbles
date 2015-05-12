@@ -112,6 +112,14 @@ function setObserveSongTitle(disabled) {
 	}
 }
 
+function setObserveProgressBar(disabled) {
+	if (!disabled) {
+		gmProgressBar = document.getElementsByClassName('goog-slider-track')[0];
+		progressBarObserver.observe(gmProgressBar, { attributeFilter : ['class'] });
+		gmProgressBar.onclick = function() { setTimeout(observeSongTitle, 100); };
+	}
+}
+
 function updatePlayerStatus(key, value) {
 	if (gm_player[key] != value) {
 		gm_player[key] = value;
@@ -121,6 +129,7 @@ function updatePlayerStatus(key, value) {
 
 		if (key == "disabled") {
 			setObserveSongTitle(value);
+			setObserveProgressBar(value);
 			setTimeout(function() {sendMessage(data);}, 500);
 		} else {
 			sendMessage(data);
@@ -145,6 +154,9 @@ var songTitleObserver = new MutationObserver(function(mutations) {
 	observeSongTitle();
 });
 
+var progressBarObserver = new MutationObserver(function(mutations) {
+	observeSongTitle();
+});
 
 
 function init() {
