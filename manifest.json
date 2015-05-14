@@ -1,11 +1,11 @@
 {
 	"name": "Music Bubbles",
 	"manifest_version": 2,
-	"version": "1.4.1",
+	"version": "1.5",
 	"description": "Floating quick controls for Google Play Music",
 	"options_page": "options.html",
 	"content_security_policy": "script-src 'self' https://apis.google.com https://platform.twitter.com; object-src 'self'",
-	"permissions": ["tabs", "storage", "background" ],
+	"permissions": ["tabs", "storage" ],
 	"icons": {
 		"48": "images/icon-48.png",
 		"128": "images/icon-128.png"

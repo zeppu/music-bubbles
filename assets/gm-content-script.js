@@ -22,8 +22,8 @@ var gm_player = {
 
 function getButtons() {
 	if (gm_player.buttons == null) {
-		player = document.getElementById('player')
-		buttonElements = player.getElementsByClassName('flat-button');
+		player = document.getElementById('player');
+		buttonElements = player.getElementsByTagName('sj-icon-button');
 		gm_player.buttons = {};
 		for (var i = 0; i < buttonElements.length; i++) {
 			id = buttonElements[i].getAttribute('data-id');
@@ -78,19 +78,19 @@ function sendMessage(data) {
 }
 
 function observeSongTitle() {
-	gm_player.container 		= document.getElementById('player');
+	gm_player.container 		= document.getElementById('playerSongInfo');
 
 	songData = {};
 	try {
-		songData.songTitle 	= document.getElementById('playerSongTitle').textContent;
+		songData.songTitle 	= document.getElementById('player-song-title').textContent;
 		songData.artist 	= document.getElementById('player-artist').textContent;
 		songData.album		= gm_player.container.getElementsByClassName('player-album')[0].textContent;
 		songData.albumArtUrl= document.getElementById('playingAlbumArt').src;
-		songData.duration 	= document.getElementById('slider').getAttribute('aria-valuemax');
-		songData.durationAt	= document.getElementById('slider').getAttribute('aria-valuenow');
+		songData.duration 	= document.getElementById('material-player-progress').getAttribute('aria-valuemax');
+		songData.durationAt	= document.getElementById('material-player-progress').getAttribute('aria-valuenow');
 
-		songData.liked = buttons.like.getAttribute('class').indexOf('selected') >= 0;
-		songData.disliked = buttons.dislike.getAttribute('class').indexOf('selected') >= 0;
+		songData.liked = buttons.like.getAttribute('title').indexOf('Undo') >= 0;
+		songData.disliked = buttons.dislike.getAttribute('title').indexOf('Undo') >= 0;
 
 		if (songData.durationAt == null) {
 			songData.durationAt = 0;
@@ -114,9 +114,11 @@ function setObserveSongTitle(disabled) {
 
 function setObserveProgressBar(disabled) {
 	if (!disabled) {
-		gmProgressBar = document.getElementsByClassName('goog-slider-track')[0];
-		progressBarObserver.observe(gmProgressBar, { attributeFilter : ['class'] });
-		gmProgressBar.onclick = function() { setTimeout(observeSongTitle, 100); };
+		sliderKnob = document.getElementById('material-player-progress');
+		// timeout because this has to arrive after the observe play-pause change
+		sliderKnob.onmouseup = function() {
+				setTimeout(observeSongTitle, 250);
+			}
 	}
 }
 
@@ -141,8 +143,10 @@ function observePlayButton(target) {
 	disabled = target.hasAttribute("disabled");
 	updatePlayerStatus("disabled" , disabled);
 
-	classes = target.getAttribute('class');
-	updatePlayerStatus("playing", classes.indexOf("playing") != -1);
+	classes = target.getAttribute('title');
+	if (classes.length > 0) {
+		updatePlayerStatus("playing", classes.indexOf("Play") != -1);
+	}
 }
 
 var playButtonObserver = new MutationObserver(function(mutations) {
@@ -153,11 +157,6 @@ var playButtonObserver = new MutationObserver(function(mutations) {
 var songTitleObserver = new MutationObserver(function(mutations) {
 	observeSongTitle();
 });
-
-var progressBarObserver = new MutationObserver(function(mutations) {
-	observeSongTitle();
-});
-
 
 function init() {
 	setTimeout(function() {		
