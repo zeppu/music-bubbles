@@ -145,7 +145,7 @@ function observePlayButton(target) {
 
 	classes = target.getAttribute('title');
 	if (classes.length > 0) {
-		updatePlayerStatus("playing", classes.indexOf("Play") != -1);
+		updatePlayerStatus("playing", classes.indexOf("Pause") != -1);
 	}
 }
 
@@ -164,6 +164,7 @@ function init() {
 			init();
 		} else {
 			buttons = getButtons();
+			observeSongTitle();
 		}
 	}, 2000);
 }
