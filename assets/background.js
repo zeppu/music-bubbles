@@ -77,6 +77,12 @@ function trackUpdated(newData) {
 	return updated;
 }
 
+var format = function(s, c) {
+    return s.replace(new RegExp("{(\\w+)}", "g"), function(m, p) {
+        return c[p];
+    });
+};
+
 function processGMUpdate(request, sender) {
 	gm_port = sender;
 	if (request.disabled) {

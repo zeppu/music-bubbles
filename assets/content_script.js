@@ -101,24 +101,27 @@ function update(data) {
 	}
 
 	if (data.songData != null && data.songData.songTitle != null) {
-		document.getElementById("gm-bubble-label").setAttribute("data-active", "true");
+		element.setAttribute("data-active", "true");
 		document.getElementById("gm-bubble-artist").textContent = data.songData.artist;
 		document.getElementById("gm-bubble-song-title").textContent = data.songData.songTitle;
 		var updated = data.updated;
 		document.getElementById("gm-bubble-album-art").src = data.songData.albumArtUrl;
 		progressBar.start(data.songData);
-		if (data.songData.liked) {
-			element.setAttribute("data-rating", "liked");
-		} else if (data.songData.disliked) {
-			element.setAttribute("data-rating", "disliked");
-		} else {
-			element.removeAttribute("data-rating")
-		}
+		// if (data.songData.liked) {
+		// 	element.setAttribute("data-rating", "liked");
+		// } else if (data.songData.disliked) {
+		// 	element.setAttribute("data-rating", "disliked");
+		// } else {
+		// 	element.removeAttribute("data-rating")
+		// }
+		document.getElementById("gm-bubble-like").innerHTML = data.songData.thumbsUp;
+		document.getElementById("gm-bubble-dislike").innerHTML = data.songData.thumbsDown;
+
 		if (updated) {
 			showToast(element);
 		}
 	} else {
-		document.getElementById("gm-bubble-label").setAttribute("data-active", "false")	
+		element.setAttribute("data-active", "false")	
 		progressBar.reset();
 	}
 }

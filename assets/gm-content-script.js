@@ -89,8 +89,13 @@ function observeSongTitle() {
 		songData.duration 	= document.getElementById('material-player-progress').getAttribute('aria-valuemax');
 		songData.durationAt	= document.getElementById('material-player-progress').getAttribute('aria-valuenow');
 
-		songData.liked = buttons.like.getAttribute('title').indexOf('Undo') >= 0;
-		songData.disliked = buttons.dislike.getAttribute('title').indexOf('Undo') >= 0;
+		//songData.liked = buttons.like.getAttribute('title').indexOf('Undo') >= 0;
+		//songData.disliked = buttons.dislike.getAttribute('title').indexOf('Undo') >= 0;
+		var up = document.querySelector('.player-rating-container [data-rating="5"]');
+		var down = document.querySelector('.player-rating-container [data-rating="1"]');
+
+		songData.thumbsUp = up.shadowRoot["olderShadowRoot"].querySelector('core-icon svg').outerHTML;
+		songData.thumbsDown = down.shadowRoot["olderShadowRoot"].querySelector('core-icon svg').outerHTML;
 
 		if (songData.durationAt == null) {
 			songData.durationAt = 0;
@@ -139,14 +144,18 @@ function updatePlayerStatus(key, value) {
 	}
 }
 
-function observePlayButton(target) {
+function observePlayButton() {
+	target = document.querySelector('[data-id="play-pause"]');
 	disabled = target.hasAttribute("disabled");
 	updatePlayerStatus("disabled" , disabled);
 
-	classes = target.getAttribute('title');
-	if (classes.length > 0) {
-		updatePlayerStatus("playing", classes.indexOf("Pause") != -1);
+	classes = target.getAttribute('class');
+	if (classes != null && classes.length > 0 && classes.indexOf("playing") != -1) {
+		updatePlayerStatus("playing", true);
+	} else {
+		updatePlayerStatus("playing", false);		
 	}
+
 }
 
 var playButtonObserver = new MutationObserver(function(mutations) {

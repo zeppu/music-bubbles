@@ -32,7 +32,7 @@
 
 	.gm-bubble {
 		border-radius: 50%;
-		background-color: #fb8521 !important;
+		background-color: #ef6c00 !important;
 	    margin: 0 auto;	
 	    cursor: pointer;	
 	    transition: -webkit-transform 0.50s;
@@ -100,11 +100,11 @@
 
 	.gm-bubblecontrol:hover {	
 /*		border-color:white;
-		box-shadow: 0 0 3px #fb8521;*/
+		box-shadow: 0 0 3px #ef6c00;*/
 	}
 
 	.gm-bubblecontrol:active {
-		box-shadow: 0 0 3px 1px #fb8521;
+		box-shadow: 0 0 3px 1px #ef6c00;
 	}
 
 	.gm-bubble-button {
@@ -191,14 +191,14 @@
 	}
 
 	/* Thumbs up */
-	#gm-bubble-content:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-like, #gm-bubble-like:hover {
+	#gm-bubble-content[data-active="true"]:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-like, #gm-bubble-like:hover {
 		transition: -webkit-transform 0.70s 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 		-webkit-transform:translate(-28px, 28px);
 		opacity: 1;
 	}
 
 	/* Thumbs down */
-	#gm-bubble-content:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-dislike, #gm-bubble-dislike:hover {
+	#gm-bubble-content[data-active="true"]:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-dislike, #gm-bubble-dislike:hover {
 		transition: -webkit-transform 0.70s 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
 		-webkit-transform:translate(28px, 28px);
 		opacity: 1;
@@ -233,7 +233,7 @@
 
 
 	#gm-bubble-main:active ~ #gm-bubble-layer, #gm-bubble-layer:hover {
-	    transition: all 0 0.4s;
+	    transition: all 0s 0.4s;
 	    z-index: 15;
 	    position: absolute;
 	    top: 0;
@@ -241,6 +241,22 @@
 	    width: 64px;
 	    height: 64px;
 	    border-radius: 50%;
+	}
+
+	#gm-bubble-drag:hover:before {
+	  content: " ";
+	  position: absolute;
+	  width: 40px;
+	  height: 40px;
+	  left: -16px;
+	}
+
+	#gm-bubble-blacklist:hover:before {
+	  content: " ";
+	  position: absolute;
+	  width: 40px;
+	  height: 40px;
+	  left: 0px;
 	}
 
 	#gm-bubble-layer:hover:before {
@@ -261,23 +277,11 @@
 		transition: box-shadow 0.4s;
 		box-shadow: 0 0 7px #333;
 	}
-
-	#gm-bubble-like svg > path {
-		fill: rgba(255,255,255,0.5);
-	}
 	
-	#gm-bubble-dislike svg > path {
-		fill: rgba(255,255,255,0.5);
-	}
-	
-	[data-rating="liked"] #gm-bubble-like svg > path {
-		fill: white;
-		transition: fill 0.15s ease;
-	}
-
-	[data-rating="disliked"] #gm-bubble-dislike svg > path {
-		fill: white;		
-		transition: fill 0.15s ease;
+	#gm-bubble-like svg, #gm-bubble-dislike svg {
+		width: 16px;
+  		height: 16px;
+	  	fill: white;
 	}
 
 	#gm-bubble-progress {
@@ -324,7 +328,7 @@
 		padding: 4px 0;
 	}
 
-	#gm-bubble-content:not([data-state="disabled"]):hover #gm-bubble-label[data-active="true"], #gm-bubble-content.gm-bubble-notify #gm-bubble-label {
+	#gm-bubble-content[data-active="true"]:not([data-state="disabled"]):hover #gm-bubble-label, #gm-bubble-content.gm-bubble-notify #gm-bubble-label {
 	    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 	    opacity: 1;	
 	    visibility: initial;
@@ -457,14 +461,8 @@
 			</svg>
 		</span>
 		<span id="gm-bubble-like" class="gm-bubble gm-bubblecontrol gm-bubble-small">
-			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48">
-			    <path d="M2 42h8v-24h-8v24zm44-22c0-2.21-1.79-4-4-4h-12.63l1.91-9.14c.04-.2.07-.41.07-.63 0-.83-.34-1.58-.88-2.12l-2.13-2.11-13.17 13.17c-.72.73-1.17 1.73-1.17 2.83v20c0 2.21 1.79 4 4 4h18c1.66 0 3.08-1.01 3.68-2.44l6.03-14.1c.18-.46.29-.95.29-1.46v-3.83l-.02-.02.02-.15z" fill="white" />
-			</svg>
 		</span>
 		<span id="gm-bubble-dislike" class="gm-bubble gm-bubblecontrol gm-bubble-small">
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 32 32">
-				<path d="M20 4h-12c-1.107 0-2.053 0.673-2.453 1.627l-4.020 9.4c-0.12 0.307-0.193 0.633-0.193 0.973v2.553l0.013 0.013-0.013 0.1c0 1.473 1.193 2.667 2.667 2.667h8.42l-1.273 6.093c-0.027 0.133-0.047 0.273-0.047 0.42 0 0.553 0.227 1.053 0.587 1.413l1.42 1.407 8.78-8.78c0.48-0.487 0.78-1.153 0.78-1.887v-13.333c0-1.473-1.193-2.667-2.667-2.667zM25.333 4v16h5.333v-16h-5.333z" fill="white"></path>
-			</svg>
 		</span>		
 	 	<span id="gm-bubble-layer"></span>
 		<span id="gm-bubble-blacklist" class="gm-bubble gm-bubble-button gm-bubblecontrol" title="Blacklist Site">
