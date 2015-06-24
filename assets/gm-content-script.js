@@ -78,7 +78,7 @@ function sendMessage(data) {
 }
 
 function observeSongTitle() {
-	gm_player.container 		= document.getElementById('playerSongInfo');
+	gm_player.container 	= document.getElementById('playerSongInfo');
 
 	songData = {};
 	try {
@@ -89,13 +89,11 @@ function observeSongTitle() {
 		songData.duration 	= document.getElementById('material-player-progress').getAttribute('aria-valuemax');
 		songData.durationAt	= document.getElementById('material-player-progress').getAttribute('aria-valuenow');
 
-		//songData.liked = buttons.like.getAttribute('title').indexOf('Undo') >= 0;
-		//songData.disliked = buttons.dislike.getAttribute('title').indexOf('Undo') >= 0;
 		var up = document.querySelector('.player-rating-container [data-rating="5"]');
 		var down = document.querySelector('.player-rating-container [data-rating="1"]');
 
-		songData.thumbsUp = up.shadowRoot["olderShadowRoot"].querySelector('core-icon svg').outerHTML;
-		songData.thumbsDown = down.shadowRoot["olderShadowRoot"].querySelector('core-icon svg').outerHTML;
+		songData.thumbsUp = up.querySelector('::shadow core-icon svg').outerHTML;
+		songData.thumbsDown = down.querySelector('::shadow core-icon svg').outerHTML;
 
 		if (songData.durationAt == null) {
 			songData.durationAt = 0;
@@ -114,6 +112,11 @@ function setObserveSongTitle(disabled) {
 	if (!disabled) {
 		songInfo = document.getElementById('playerSongInfo');
 		songTitleObserver.observe(songInfo, { characterData : true, childList : true});
+		
+		var up = document.querySelector('.player-rating-container [data-rating="5"]::shadow core-icon');
+		var down = document.querySelector('.player-rating-container [data-rating="1"]::shadow core-icon');		
+		thumbsUpObserver.observe(up, { attributes : true, attributeFilter : ["aria-label"] })
+		thumbsDownObserver.observe(down, { attributes : true, attributeFilter : ["aria-label"] })
 	}
 }
 
@@ -131,16 +134,8 @@ function updatePlayerStatus(key, value) {
 	if (gm_player[key] != value) {
 		gm_player[key] = value;
 		data = {};
-		data[key] = value;
-		
-
-		if (key == "disabled") {
-			setObserveSongTitle(value);
-			setObserveProgressBar(value);
-			setTimeout(function() {sendMessage(data);}, 500);
-		} else {
-			sendMessage(data);
-		}
+		data[key] = value;		
+		sendMessage(data);
 	}
 }
 
@@ -148,6 +143,10 @@ function observePlayButton() {
 	target = document.querySelector('[data-id="play-pause"]');
 	disabled = target.hasAttribute("disabled");
 	updatePlayerStatus("disabled" , disabled);
+	if (!disabled) {
+		setObserveSongTitle(value);
+		setObserveProgressBar(value);
+	}
 
 	classes = target.getAttribute('class');
 	if (classes != null && classes.length > 0 && classes.indexOf("playing") != -1) {
@@ -163,9 +162,9 @@ var playButtonObserver = new MutationObserver(function(mutations) {
 	observeSongTitle();
 });
 
-var songTitleObserver = new MutationObserver(function(mutations) {
-	observeSongTitle();
-});
+var songTitleObserver = new MutationObserver(observeSongTitle);
+var thumbsUpObserver = new MutationObserver(observeSongTitle);
+var thumbsDownObserver = new MutationObserver(observeSongTitle);
 
 function init() {
 	setTimeout(function() {		
