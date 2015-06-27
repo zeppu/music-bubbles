@@ -24,21 +24,9 @@ function loadExtension(data) {
 	}
 	
 	var gm_Bubble_Control = {
-		playPause 	: function () {
-			chrome.runtime.sendMessage({command: 'play-pause'});
+		excuteCommand : function() {			
+			chrome.runtime.sendMessage({command: this.dataset.command});
 		},
-		prevSong	: function () {
-			chrome.runtime.sendMessage({command: 'rewind'});
-		},
-		nextSong	: function () {		
-			chrome.runtime.sendMessage({command: 'forward'});
-		},		
-		like 		: function () {		
-			chrome.runtime.sendMessage({command: 'like'});
-		},			
-		dislike 	: function () {		
-			chrome.runtime.sendMessage({command: 'dislike'});
-		},	
 		blacklistUrl: function () {
 			blacklisted = true;
 			chrome.runtime.sendMessage({blacklist: window.location.hostname});
@@ -64,17 +52,16 @@ function loadExtension(data) {
 			console.info("Music Bubbles removed three times; giving up");
 		}	
 
-		document.getElementById('gm-bubble-playPause').onclick=gm_Bubble_Control.playPause;
-		document.getElementById('gm-bubble-prev').onclick=gm_Bubble_Control.prevSong;
-		document.getElementById('gm-bubble-next').onclick=gm_Bubble_Control.nextSong;
+		document.getElementById('gm-bubble-playPause').onclick=gm_Bubble_Control.excuteCommand;
+		document.getElementById('gm-bubble-prev').onclick=gm_Bubble_Control.excuteCommand;
+		document.getElementById('gm-bubble-next').onclick=gm_Bubble_Control.excuteCommand;
+		document.getElementById('gm-bubble-like').onclick=gm_Bubble_Control.excuteCommand;
+		document.getElementById('gm-bubble-dislike').onclick=gm_Bubble_Control.excuteCommand;
+
 		document.getElementById('gm-bubble-blacklist').onclick=gm_Bubble_Control.blacklistUrl;
-		document.getElementById('gm-bubble-like').onclick=gm_Bubble_Control.like;
-		document.getElementById('gm-bubble-dislike').onclick=gm_Bubble_Control.dislike;
-
 		document.getElementById('gm-bubble-main').onmousewheel=gm_Bubble_Control.scroll;
+
 		document.getElementById('gm-bubble-content').ondblclick=gm_Bubble_Control.selectPlayer;
-
-
 		setDraggable();	
 		update(data);
 	}
@@ -100,6 +87,10 @@ function update(data) {
 		}
 	}
 
+	if (data.rating != null) {
+		element.setAttribute("data-rating", data.rating);		
+	}
+
 	if (data.songData != null && data.songData.songTitle != null) {
 		element.setAttribute("data-active", "true");
 		document.getElementById("gm-bubble-artist").textContent = data.songData.artist;
@@ -107,15 +98,7 @@ function update(data) {
 		var updated = data.updated;
 		document.getElementById("gm-bubble-album-art").src = data.songData.albumArtUrl;
 		progressBar.start(data.songData);
-		// if (data.songData.liked) {
-		// 	element.setAttribute("data-rating", "liked");
-		// } else if (data.songData.disliked) {
-		// 	element.setAttribute("data-rating", "disliked");
-		// } else {
-		// 	element.removeAttribute("data-rating")
-		// }
-		document.getElementById("gm-bubble-like").innerHTML = data.songData.thumbsUp;
-		document.getElementById("gm-bubble-dislike").innerHTML = data.songData.thumbsDown;
+		
 
 		if (updated) {
 			showToast(element);

@@ -7,7 +7,7 @@
 	    }
 	}
 
-	@media screen and (max-width: 300px) {
+	@media screen and (max-width: {showMinWidth}px) {
   		#gm-bubble-content {
 	        display: none !important;
 	    }
@@ -19,7 +19,7 @@
 		bottom: 100px;
 		
 		transition: opacity 0.5s ease;
-		opacity: 0.25;	
+		opacity: {opacity};	
 		width: 64px;
 		height: 64px;	
 		z-index: 2000000000;
@@ -203,11 +203,29 @@
 		opacity: 1;
 	}
 
+	#gm-bubble-like .gm-bubble-liked {
+		opacity: 0;
+	}
+
+	#gm-bubble-content[data-rating="5"] #gm-bubble-like .gm-bubble-liked {
+		opacity: 1;
+		transition: opacity 0.15s ease;
+	}
+
 	/* Thumbs down */
 	#gm-bubble-content[data-active="true"]:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-dislike, #gm-bubble-dislike:hover {
 		transition: -webkit-transform 0.70s 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
 		-webkit-transform:translate(28px, 28px);
 		opacity: 1;
+	}
+
+	#gm-bubble-dislike .gm-bubble-disliked {
+		opacity: 0;
+	}
+
+	#gm-bubble-content[data-rating="1"] #gm-bubble-dislike .gm-bubble-disliked {
+		opacity: 1;
+		transition: opacity 0.15s ease;
 	}
 
 	/* Blacklist button */
@@ -443,7 +461,7 @@
 			</svg>
 		</div>
 		<div id="gm-bubble-progress-container" class="gm-bubble"><canvas id="gm-bubble-progress" width="64px" height="64px" /></div>
-		<span id="gm-bubble-playPause" class="gm-bubble gm-bubblecontrol" data-rotate="90">
+		<span id="gm-bubble-playPause" class="gm-bubble gm-bubblecontrol" data-rotate="90" data-command='[data-id="play-pause"]'>
 			<svg id="gm-bubble-play"  xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48">
 			    <path d="M-838-2232H562v3600H-838z" fill="none"/>
 			    <path d="M16 10v28l22-14z" fill="#fff"/>
@@ -454,21 +472,41 @@
 			    <path d="M0 0h48v48H0z" fill="none"/>
 			</svg>
 		</span>
-		<span id="gm-bubble-next" class="gm-bubble gm-bubblecontrol">
+		<span id="gm-bubble-next" class="gm-bubble gm-bubblecontrol" data-command='[data-id="forward"]'>
 			<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48">
 			    <path d="M12 36l17-12-17-12v24zm20-24v24h4V12h-4z" fill="#fff"/>
 			    <path d="M0 0h48v48H0z" fill="none"/>
 			</svg>
 		</span>
-		<span id="gm-bubble-prev" class="gm-bubble gm-bubblecontrol" data-rotate="-90">
+		<span id="gm-bubble-prev" class="gm-bubble gm-bubblecontrol" data-rotate="-90" data-command='[data-id="rewind"]'>
 			<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48">
 			    <path d="M12 12h4v24h-4zm7 12l17 12V12z" fill="#fff"/>
 			    <path d="M0 0h48v48H0z" fill="none"/>
 			</svg>
 		</span>
-		<span id="gm-bubble-like" class="gm-bubble gm-bubblecontrol gm-bubble-small">
+		<span id="gm-bubble-like" class="gm-bubble gm-bubblecontrol gm-bubble-small" data-command='[data-rating="5"]'>
+			<span>		
+				<svg viewBox="0 0 24 24">
+		    		<path fill="#ffffff" d="M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V10.09L23,12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z" />
+				</svg>
+			</span>
+			<span class="gm-bubble-liked">		
+				<svg viewBox="0 0 24 24">
+				    <path fill="#ffffff" d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10.08L23,10M1,21H5V9H1V21Z" />
+				</svg>
+			</span>
 		</span>
-		<span id="gm-bubble-dislike" class="gm-bubble gm-bubblecontrol gm-bubble-small">
+		<span id="gm-bubble-dislike" class="gm-bubble gm-bubblecontrol gm-bubble-small" data-command='[data-rating="1"]'>
+			<span>
+				<svg viewBox="0 0 24 24">
+				    <path fill="#ffffff" d="M19,15V3H23V15H19M15,3A2,2 0 0,1 17,5V15C17,15.55 16.78,16.05 16.41,16.41L9.83,23L8.77,21.94C8.5,21.67 8.33,21.3 8.33,20.88L8.36,20.57L9.31,16H3C1.89,16 1,15.1 1,14V13.91L1,12C1,11.74 1.05,11.5 1.14,11.27L4.16,4.22C4.46,3.5 5.17,3 6,3H15M15,5H5.97L3,12V14H11.78L10.65,19.32L15,14.97V5Z" />
+				</svg>
+			</span>
+			<span class="gm-bubble-disliked">
+				<svg viewBox="0 0 24 24">
+				    <path fill="#ffffff" d="M19,15H23V3H19M15,3H6C5.17,3 4.46,3.5 4.16,4.22L1.14,11.27C1.05,11.5 1,11.74 1,12V13.91L1,14A2,2 0 0,0 3,16H9.31L8.36,20.57C8.34,20.67 8.33,20.77 8.33,20.88C8.33,21.3 8.5,21.67 8.77,21.94L9.83,23L16.41,16.41C16.78,16.05 17,15.55 17,15V5C17,3.89 16.1,3 15,3Z" />
+				</svg>
+			</span>
 		</span>		
 	 	<span id="gm-bubble-layer"></span>
 		<span id="gm-bubble-blacklist" class="gm-bubble gm-bubble-button gm-bubblecontrol" title="Blacklist Site">

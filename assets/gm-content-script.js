@@ -15,169 +15,170 @@
 
 
 var gm_player = {
-	buttons : null,
-	playing : false,
-	disabled : true
+    playing: false,
+    disabled: true
 };
 
-function getButtons() {
-	if (gm_player.buttons == null) {
-		player = document.getElementById('player');
-		buttonElements = player.getElementsByTagName('sj-icon-button');
-		gm_player.buttons = {};
-		for (var i = 0; i < buttonElements.length; i++) {
-			id = buttonElements[i].getAttribute('data-id');
-			if (id != null) {
-				gm_player.buttons[id] = buttonElements[i];
-			}
-			if (id == "play-pause")	{
-				playButtonObserver.observe(buttonElements[i], {attributes: true});				
-			}
-			if (id == "rewind") {
-				buttonElements[i].onclick= function() { setTimeout(observeSongTitle, 100); };
-			}
-		}
-	}
-
-	thumbsContainer = document.getElementById('player').getElementsByClassName('rating-container');
-
-	if (thumbsContainer != null && thumbsContainer.length > 0) {
-		thumbs = thumbsContainer[0].children;
-
-		for (var i = 0; i < thumbs.length; i++) {
-			rating = thumbs[i].getAttribute('data-rating');			
-			if (rating == 1) {
-				gm_player.buttons.dislike = thumbs[i];				
-
-			} else if (rating == 5) {
-				gm_player.buttons.like = thumbs[i];
-			}
-		};
-
-	}
-
-	return gm_player.buttons;
-}
-
 function performCommand(request) {
-	buttons = getButtons();
-	if (request.command != null && buttons[request.command] != null) {
-		buttons[request.command].click();		
-	}
+    if (request.command != null) {
+        document.querySelector('#player').querySelector(request.command).click();
+    }
 
-	if (request.scroll != null) {
-		volume = document.getElementById("volume");		
-		mouseEvent = new WheelEvent("mousewheel", { wheelDeltaY: request.scroll });		
-  		volume.dispatchEvent(mouseEvent);
-	}
+    if (request.scroll != null) {
+        volume = document.getElementById("volume");
+        mouseEvent = new WheelEvent("mousewheel", {
+            wheelDeltaY: request.scroll
+        });
+        volume.dispatchEvent(mouseEvent);
+    }
 
 }
 
 function sendMessage(data) {
-	port.postMessage(data);
+    port.postMessage(data);
 }
 
 function observeSongTitle() {
-	gm_player.container 	= document.getElementById('playerSongInfo');
+    gm_player.container = document.getElementById('playerSongInfo');
 
-	songData = {};
-	try {
-		songData.songTitle 	= document.getElementById('player-song-title').textContent;
-		songData.artist 	= document.getElementById('player-artist').textContent;
-		songData.album		= gm_player.container.getElementsByClassName('player-album')[0].textContent;
-		songData.albumArtUrl= document.getElementById('playingAlbumArt').src;
-		songData.duration 	= document.getElementById('material-player-progress').getAttribute('aria-valuemax');
-		songData.durationAt	= document.getElementById('material-player-progress').getAttribute('aria-valuenow');
+    songData = {};
+    try {
+        songData.songTitle = document.getElementById('player-song-title').textContent;
+        songData.artist = document.getElementById('player-artist').textContent;
+        songData.album = gm_player.container.getElementsByClassName('player-album')[0].textContent;
+        songData.albumArtUrl = document.getElementById('playingAlbumArt').src;
+        songData.duration = document.getElementById('material-player-progress').getAttribute('aria-valuemax');
+        songData.durationAt = document.getElementById('material-player-progress').getAttribute('aria-valuenow');
 
-		var up = document.querySelector('.player-rating-container [data-rating="5"]');
-		var down = document.querySelector('.player-rating-container [data-rating="1"]');
+        if (songData.durationAt == null) {
+            songData.durationAt = 0;
+        }
+        songData.songStart = Date.now() - songData.durationAt;
+    } catch (e) {}
 
-		songData.thumbsUp = up.querySelector('::shadow core-icon svg').outerHTML;
-		songData.thumbsDown = down.querySelector('::shadow core-icon svg').outerHTML;
-
-		if (songData.durationAt == null) {
-			songData.durationAt = 0;
-		}
-		songData.songStart = Date.now() - songData.durationAt;
-		
-	} catch (e) {}
-
-
-	buttons = getButtons();
-
-	updatePlayerStatus("songData", songData);
-}
-
-function setObserveSongTitle(disabled) {
-	if (!disabled) {
-		songInfo = document.getElementById('playerSongInfo');
-		songTitleObserver.observe(songInfo, { characterData : true, childList : true});
-		
-		var up = document.querySelector('.player-rating-container [data-rating="5"]::shadow core-icon');
-		var down = document.querySelector('.player-rating-container [data-rating="1"]::shadow core-icon');		
-		thumbsUpObserver.observe(up, { attributes : true, attributeFilter : ["aria-label"] })
-		thumbsDownObserver.observe(down, { attributes : true, attributeFilter : ["aria-label"] })
-	}
-}
-
-function setObserveProgressBar(disabled) {
-	if (!disabled) {
-		sliderKnob = document.getElementById('material-player-progress');
-		// timeout because this has to arrive after the observe play-pause change
-		sliderKnob.onmouseup = function() {
-				setTimeout(observeSongTitle, 250);
-			}
-	}
+   updatePlayerStatus("songData", songData);
 }
 
 function updatePlayerStatus(key, value) {
-	if (gm_player[key] != value) {
-		gm_player[key] = value;
-		data = {};
-		data[key] = value;		
-		sendMessage(data);
-	}
+    if (gm_player[key] != value) {
+        gm_player[key] = value;
+        data = {};
+        data[key] = value;
+        sendMessage(data);
+    }
 }
 
-function observePlayButton() {
-	target = document.querySelector('[data-id="play-pause"]');
-	disabled = target.hasAttribute("disabled");
-	updatePlayerStatus("disabled" , disabled);
-	if (!disabled) {
-		setObserveSongTitle(value);
-		setObserveProgressBar(value);
-	}
+function setEnabled(enabled) {
+    console.log("enabled" + enabled);
+    if (enabled) {
+        observers.reattachObservers();
+    }
+    updatePlayerStatus("disabled", !enabled);
+}
 
-	classes = target.getAttribute('class');
-	if (classes != null && classes.length > 0 && classes.indexOf("playing") != -1) {
-		updatePlayerStatus("playing", true);
-	} else {
-		updatePlayerStatus("playing", false);		
-	}
+function observePlayButton(mutations) {
+    console.log("BB");
+    var playButton = document.querySelector('[data-id="play-pause"]');
+    enabled = !playButton.hasAttribute("disabled");
+    setEnabled(enabled);
+
+    classes = playButton.getAttribute('class');
+    if (classes != null && classes.length > 0 && classes.indexOf("playing") != -1) {
+        updatePlayerStatus("playing", true);
+    } else {
+        updatePlayerStatus("playing", false);
+    }
 
 }
 
-var playButtonObserver = new MutationObserver(function(mutations) {
-	observePlayButton(mutations[0].target);
-	observeSongTitle();
-});
+function observeThumbsButtons() {
+    var up = document.querySelector('.player-rating-container [data-rating="5"]');
+    var down = document.querySelector('.player-rating-container [data-rating="1"]');
 
-var songTitleObserver = new MutationObserver(observeSongTitle);
-var thumbsUpObserver = new MutationObserver(observeSongTitle);
-var thumbsDownObserver = new MutationObserver(observeSongTitle);
+    var rating = 3;
+    if (up.querySelector('::shadow core-icon').getAttribute("aria-label").indexOf("outline") == -1) {
+        rating = 5;
+    } else if (down.querySelector('::shadow core-icon').getAttribute("aria-label").indexOf("outline") == -1) {
+        rating = 1;
+    }
+
+    updatePlayerStatus("rating", rating);
+}
+
+var observers = {
+    songTitleObserver: new MutationObserver(function(mutations) {
+        observeSongTitle();
+    }),
+    playButtonObserver: new MutationObserver(function(mutations) {
+        console.log("AA");
+        observePlayButton();
+    }),
+    thumbsUpObserver: new MutationObserver(function(mutations) {
+        observeThumbsButtons();
+    }),
+    thumbsDownObserver: new MutationObserver(function(mutations) {
+        observeThumbsButtons();
+    }),
+    setupPlayObserver: function() {
+        var playButton = document.querySelector('#player [data-id="play-pause"]');
+        observers.playButtonObserver.observe(playButton, {
+            attributes: true,
+            attributeFilter: ["disabled", "class"]
+        });
+    },
+    setupThumbsObserver: function() {
+        var up = document.querySelector('.player-rating-container [data-rating="5"]::shadow core-icon');
+        var down = document.querySelector('.player-rating-container [data-rating="1"]::shadow core-icon');
+        if (up != undefined) {
+            observers.thumbsUpObserver.observe(up, {
+                attributes: true,
+                attributeFilter: ["aria-label"]
+            });
+        }
+        if (down != undefined) {
+            observers.thumbsDownObserver.observe(down, {
+                attributes: true,
+                attributeFilter: ["aria-label"]
+            });
+        }
+    },
+    setupProgressbarObserver: function() {
+        sliderKnob = document.getElementById('material-player-progress');
+        // timeout because this has to arrive after the observe play-pause change
+        sliderKnob.onmouseup = function() {
+            setTimeout(observeSongTitle, 250);
+        }
+    },
+    setupSongInfoObserver: function() {
+        var songInfoContainer = document.querySelector('#playerSongInfo');
+        if (songInfoContainer != undefined) {
+            observers.songTitleObserver.observe(songInfoContainer, {
+                attributes: true,
+                subtree: true
+            });
+        }
+    },
+    reattachObservers: function() {
+        this.setupPlayObserver();
+        this.setupThumbsObserver();
+        this.setupProgressbarObserver();
+        this.setupSongInfoObserver();
+    }
+}
 
 function init() {
-	setTimeout(function() {		
-		if (player == undefined) {
-			init();
-		} else {
-			buttons = getButtons();
-			observeSongTitle();
-		}
-	}, 2000);
+    setTimeout(function() {
+        if (player == undefined) {
+            init();
+        } else {
+            observers.reattachObservers();
+        }
+    }, 2000);
 }
 
-var port = chrome.runtime.connect({name: "Google-Music-Bubbles"});
+var port = chrome.runtime.connect({
+    name: "Google-Music-Bubbles"
+});
 port.onMessage.addListener(performCommand);
 
 window.onload = init;

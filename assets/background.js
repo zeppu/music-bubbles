@@ -17,7 +17,8 @@
 var gm_player = {
 	playing : false,
 	disabled : true,
-	hideOnDisabled : false
+	hideOnDisabled : false,
+	options : {}
 };
 
 function processCSUpdate(request, sender, sendResponse) {
@@ -33,7 +34,8 @@ function processCSUpdate(request, sender, sendResponse) {
 		} else {
 			status = gm_player.playing?"playing":"paused";
 		}
-		gm_player.bubble = bubble.build().replace("{status}", status);
+		bubble.options.status = status;
+		gm_player.bubble = bubble.build();
 		sendResponse(gm_player);
 	}
 
@@ -98,6 +100,10 @@ function processGMUpdate(request, sender) {
 		data.playing = request.playing;
 	}
 
+	if (request.rating != null) {
+		data.rating = request.rating;
+	}
+
 	if (request.songData != null) {
 		data.updated = trackUpdated(request.songData) && gm_player.showTrackTitle;
 		data.songData = request.songData;
@@ -109,6 +115,7 @@ function processGMUpdate(request, sender) {
 
 var bubble = new function() {
 	var self = this;
+	self.options = {};
 
 	// Loading HTML File
 	var xhr = new XMLHttpRequest();
@@ -128,12 +135,11 @@ var bubble = new function() {
     	if (data.position != undefined) {
     		Object.keys(data.position).forEach(function(x) { posStyle += x+":"+data.position[x]+"px; " } );		    	
     	}
-
-    	self.posStyle = posStyle;
+    	self.options.position = posStyle;    	
     }
 
     this.shouldHideOnDisabled = function(data) {
-    	gm_player.hideOnDisabled = data.hideOnDisabled;
+    	self.options.hide = data.hideOnDisabled;
     }
 
     this.shouldShowTrackTitle = function(data) {
@@ -150,9 +156,11 @@ var bubble = new function() {
 
     // return result;
 	this.build = function() {
-		if (self.html != null && self.posStyle != null)
+		if (self.html != null && self.options.position != null)
 		{
-			return self.html.replace('{position}', self.posStyle).replace('{hide}', gm_player.hideOnDisabled);
+			self.options.showMinWidth = 400;
+			self.options.opacity = 0.5;
+			return format(self.html, self.options);
 		}
 		else return "";
 	}
