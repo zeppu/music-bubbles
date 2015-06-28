@@ -76,8 +76,7 @@ function setEnabled(enabled) {
     updatePlayerStatus("disabled", !enabled);
 }
 
-function observePlayButton(mutations) {
-    console.log("BB");
+function observePlayButton(mutations) {    
     var playButton = document.querySelector('[data-id="play-pause"]');
     enabled = !playButton.hasAttribute("disabled");
     setEnabled(enabled);
@@ -110,7 +109,6 @@ var observers = {
         observeSongTitle();
     }),
     playButtonObserver: new MutationObserver(function(mutations) {
-        console.log("AA");
         observePlayButton();
     }),
     thumbsUpObserver: new MutationObserver(function(mutations) {

@@ -27,6 +27,10 @@ function loadExtension(data) {
 		excuteCommand : function() {			
 			chrome.runtime.sendMessage({command: this.dataset.command});
 		},
+		hide : function() {
+			blacklisted = true;
+			document.getElementById("gm-bubble-content").remove();
+		},
 		blacklistUrl: function () {
 			blacklisted = true;
 			chrome.runtime.sendMessage({blacklist: window.location.hostname});
@@ -59,9 +63,10 @@ function loadExtension(data) {
 		document.getElementById('gm-bubble-dislike').onclick=gm_Bubble_Control.excuteCommand;
 
 		document.getElementById('gm-bubble-blacklist').onclick=gm_Bubble_Control.blacklistUrl;
+		document.getElementById('gm-bubble-hide').onclick=gm_Bubble_Control.hide;
 		document.getElementById('gm-bubble-main').onmousewheel=gm_Bubble_Control.scroll;
 
-		document.getElementById('gm-bubble-content').ondblclick=gm_Bubble_Control.selectPlayer;
+		document.getElementById('gm-bubble-main').ondblclick=gm_Bubble_Control.selectPlayer;
 		setDraggable();	
 		update(data);
 	}
@@ -72,7 +77,7 @@ function update(data) {
 		return;
 	gm_player = data;
 	element = document.getElementById("gm-bubble-content");
-	element.setAttribute("data-hideoption", data.hideOnDisabled	);
+	element.setAttribute("data-hideoption", data.hideOnDisabled);
 	
 	if (data.disabled) {
 		element.setAttribute("data-state", "disabled");
@@ -234,25 +239,19 @@ var progressBar = new function() {
 
 
 // Drag Stuff
-var draggable, container,dragData=null;
+var draggable, container, dragData=null;
 function setDraggable() {
-	draggable=document.getElementById("gm-bubble-drag");
+	draggable1=document.getElementById("gm-bubble-main");
+	draggable2=document.getElementById("gm-bubble-layer");
 	container=document.getElementById("gm-bubble-content");
-	if(window.addEventListener) {
-		draggable.addEventListener('mousedown',startDrag,false);
-		document.body.addEventListener('mousemove',drag,false);
-		document.body.addEventListener('mouseup',stopDrag,false);
-	}
-	else if(window.attachEvent) {
-		draggable.attachEvent('onmousedown',startDrag);
-		document.body.attachEvent('onmousemove',drag);
-		document.body.attachEvent('onmouseup',stopDrag);
-	}
+
+	draggable1.addEventListener('mousedown',startDrag,false);
+	draggable2.addEventListener('mousedown',startDrag,false);
 }
 
 
 function startDrag(ev) {
-if(!dragData) {
+if(!dragData) {	
 	containerOffset = document.getElementById("gm-bubble-content").dataset.state == "disabled"? 0 : 64;
 	ev=ev||event;
 		dragData={
@@ -260,13 +259,24 @@ if(!dragData) {
 		y: ev.clientY-container.offsetTop-containerOffset
 		};
 	};
+
+	document.body.addEventListener('mousemove',drag,false);
+	document.body.addEventListener('mouseup',stopDrag,false);
 }
 
-function processDrag(ev) {
+function processDrag(ev) {	
 	posX = ev.clientX-dragData.x;
 	posY = ev.clientY-dragData.y;
+
 	maxX = document.body.clientWidth;
 	maxY = window.innerHeight;
+
+	if (!dragData.moved && Math.abs(container.offsetLeft - posX) < 20 && Math.abs(container.offsetTop - posY) < 20) {
+		return;
+	} 
+
+	dragData.moved = true;
+
 	pos = {};
 	if(maxX / 2 > posX) {
 		pos.left = posX;
@@ -291,17 +301,23 @@ function processDrag(ev) {
 }
 
 function drag(ev) {
-	if(dragData) {
+	if (dragData) {
 		processDrag(ev||event);
 	}
 }
 
-function stopDrag(ev) {
-if(dragData) {
+function stopDrag(ev) {	
+	if(dragData && dragData.moved) {
+		dragData.moved = false;
 		processDrag(ev||event);
-		setLocation(dragData.pos);
+		if (dragData.pos) {
+			setLocation(dragData.pos);
+		}
 		dragData=null;
 	}
+
+	document.body.removeEventListener('mousemove',drag,false);
+	document.body.removeEventListener('mouseup',stopDrag,false);
 }
 
 // End Drag stuff

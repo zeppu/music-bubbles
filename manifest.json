@@ -3,7 +3,7 @@
 	"manifest_version": 2,
 	"author": "Joseph DeBono",
 	"homepage_url": "https://plus.google.com/communities/114213776133869190328",
-	"version": "1.5.3",
+	"version": "1.6",
 	"description": "Floating quick controls for Google Play Music",
 	"options_page": "options.html",
 	"content_security_policy": "script-src 'self' https://apis.google.com https://platform.twitter.com; object-src 'self'",

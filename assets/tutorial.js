@@ -60,6 +60,18 @@ function onHashChange() {
 
 }
 
+function temporaryHide() {
+	element = document.getElementById("gm-bubble-container");
+	element.style.opacity = 0;
+	bubbleHighlight = document.getElementById('bubble-highlight');
+	bubbleHighlight.classList.add("pop-highlight");
+	setTimeout(function() {
+		element = document.getElementById("gm-bubble-container");
+		bubbleHighlight.classList.remove("pop-highlight");
+		element.style.opacity = 1;
+	}, 1500)
+};
+
 function startTutorial() {
  	document.getElementById("gm-bubble-content").setAttribute("style", "bottom: calc(70% - 32px); right: calc(50% - 32px)");
  	document.body.appendChild(document.getElementById("tut-container"));
@@ -67,6 +79,8 @@ function startTutorial() {
  	document.body.onhashchange = onHashChange;
  	onHashChange();
 
+ 	document.getElementById('gm-bubble-blacklist').onclick=temporaryHide;
+	document.getElementById('gm-bubble-hide').onclick=temporaryHide;
 }
 
  window.onload=function() { setTimeout(startTutorial, 100) };

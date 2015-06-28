@@ -109,7 +109,8 @@ function processGMUpdate(request, sender) {
 		data.songData = request.songData;
 	}
 
-	messageContentScript( data );	
+	messageContentScript( data );
+	data.updated = false;	
 	gm_player = data;	
 }
 
@@ -139,7 +140,7 @@ var bubble = new function() {
     }
 
     this.shouldHideOnDisabled = function(data) {
-    	self.options.hide = data.hideOnDisabled;
+    	gm_player.hideOnDisabled = data.hideOnDisabled;
     }
 
     this.shouldShowTrackTitle = function(data) {
@@ -159,7 +160,8 @@ var bubble = new function() {
 		if (self.html != null && self.options.position != null)
 		{
 			self.options.showMinWidth = 400;
-			self.options.opacity = 0.5;
+			self.options.opacity = 0.25;
+			self.options.zindex = 2000000000;
 			return format(self.html, self.options);
 		}
 		else return "";

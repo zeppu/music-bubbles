@@ -113,7 +113,7 @@ h1 {
 
 [data-step="step5"] #tut-step-5  {
 	background-color: #fff;
-	top: calc(30% + 200px);
+	top: calc(30%);
 	transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
 	opacity: 1;
 }
@@ -127,10 +127,10 @@ h1 {
 }
 
 #background-container {
-	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 	position: absolute;
 	width:100%;
 	height: 100%;
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-step="step2"] #background-container {
@@ -219,6 +219,10 @@ h1 {
 
 .action.red {
 	color: #F44336;				
+}
+
+.action.green {
+	color: #4CAF50;
 }
 
 .tip {

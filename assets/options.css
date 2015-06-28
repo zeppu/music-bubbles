@@ -20,7 +20,7 @@ body {
 	height: 100%;	
 	box-sizing: border-box;
 	margin: 0 auto;	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cedce7), color-stop(100%,#596a72));			
+	background: #4CAF50;			
 
 }
 
@@ -28,13 +28,13 @@ body {
 	height: 100%;
 	background-color: #fff;
 	padding: 0 30px;
-	box-shadow: 0 0 10px #333;
 	box-sizing: border-box;
 	position: absolute;
 	min-width: 1000px;
 	max-width: 1280px;
 	left: 0;
 	right: 0;
+	top: 0;
 	margin: auto;
 
 }
@@ -187,27 +187,27 @@ width: 20px;
 }
 
 .pluginButton .pluginButtonLabel {
--webkit-font-smoothing: antialiased;
-border-collapse: collapse;
-color: rgb(255, 255, 255);
-cursor: pointer;
-direction: ltr;
-display: inline;
-font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
-font-size: 11px;
-font-weight: bold;
-height: auto;
-line-height: 20px;
-padding-bottom: 0px;
-padding-left: 0px;
-padding-right: 5px;
-padding-top: 0px;
-position: relative;
-text-align: left;
-text-shadow: rgb(53, 76, 140) 0px -1px 0px;
-vertical-align: top;
-white-space: nowrap;
-width: auto;
+	-webkit-font-smoothing: antialiased;
+	border-collapse: collapse;
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	direction: ltr;
+	display: inline;
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	height: auto;
+	line-height: 20px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 5px;
+	padding-top: 0px;
+	position: relative;
+	text-align: left;
+	text-shadow: rgb(53, 76, 140) 0px -1px 0px;
+	vertical-align: top;
+	white-space: nowrap;
+	width: auto;
 }
 
 input[type="checkbox"] {
