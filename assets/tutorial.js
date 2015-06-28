@@ -27,14 +27,26 @@ function step3() {
 	}
 }
 
+var observer = new MutationObserver(onMoved);
+
 function step4() {	
 	document.getElementById("gm-bubble-layer").onmouseover=null;
 	document.location.hash="step4";	
-	document.getElementById("gm-bubble-drag").onmouseup=step5;
+	var main = document.getElementById("gm-bubble-content");	
+	observer.observe(main, {
+            attributes: true,
+            attributeFilter: ["style"]
+        });
+	
 }
 
-function step5() {
-	document.getElementById("gm-bubble-drag").onmouseup=null;
+function onMoved () {
+	observer.disconnect();
+	var main = document.getElementById("gm-bubble-content");	
+	main.onmouseup = step5;
+}
+
+function step5() {	
 	document.location.hash="step5";
 }
 
