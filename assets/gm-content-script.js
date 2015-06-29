@@ -68,8 +68,7 @@ function updatePlayerStatus(key, value) {
     }
 }
 
-function setEnabled(enabled) {
-    console.log("enabled" + enabled);
+function setEnabled(enabled) {    
     if (enabled) {
         observers.reattachObservers();
     }
