@@ -244,23 +244,11 @@
 	    z-index: 15;
 	}
 
-	/* Move button */
-	/*#gm-bubble-main:active ~ #gm-bubble-drag, #gm-bubble-layer:hover ~ #gm-bubble-drag, #gm-bubble-drag:hover, #gm-bubble-drag:active {
-		transition: -webkit-transform 0.70s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		-webkit-transform:translate(-28px, 28px);
-
-		opacity: 1;
-		cursor: move;
+	#gm-bubble-layer {
+		-webkit-transform: translateZ(0);
 	}
 
-	#gm-bubble-drag:hover:before {
-	  content: " ";
-	  position: absolute;
-	  width: 40px;
-	  height: 40px;
-	  left: -16px;
-	}*/
-	
+
 	/* Hide button */
 	#gm-bubble-main:active ~ #gm-bubble-hide, #gm-bubble-layer:hover ~ #gm-bubble-hide, #gm-bubble-hide:hover, #gm-bubble-hide:active {
 		transition: -webkit-transform 0.70s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
