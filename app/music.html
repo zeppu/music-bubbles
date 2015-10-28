@@ -1,0 +1,75 @@
+<div id="gm-bubble-content" data-state="{status}" data-hideoption="{hide}" style="{position}">
+
+  <link rel="stylesheet" href="css/music.css"/>
+
+  <div id="gm-bubble-container">
+    <div id="gm-bubble-main" class="gm-bubble">
+      <img src="svg/gm-bubble.svg"/>
+
+    </div>
+    <div id="gm-bubble-progress-container" class="gm-bubble">
+      <canvas id="gm-bubble-progress" width="64px" height="64px"/>
+    </div>
+		<span id="gm-bubble-playPause" class="gm-bubble gm-bubblecontrol" data-rotate="90"
+          data-command='[data-id="play-pause"]'>
+ <img id="gm-bubble-play" src="svg/gm-bubble-play.svg"/>
+       <img id="gm-bubble-pause" src="svg/gm-bubble-pause.svg"/>
+
+		</span>
+		<span id="gm-bubble-next" class="gm-bubble gm-bubblecontrol" data-command='[data-id="forward"]'>
+
+       <img src="svg/gm-bubble-next.svg"/>
+
+		</span>
+		<span id="gm-bubble-prev" class="gm-bubble gm-bubblecontrol" data-rotate="-90" data-command='[data-id="rewind"]'>
+
+       <img src="svg/gm-bubble-prev.svg"/>
+
+		</span>
+		<span id="gm-bubble-like" class="gm-bubble gm-bubblecontrol gm-bubble-small" data-command='[data-rating="5"]'>
+			<span>
+
+       <img src="svg/gm-bubble-like.svg"/>
+
+			</span>
+			<span class="gm-bubble-liked">
+
+       <img src="svg/gm-bubble-gm-bubble-liked.svg"/>
+
+			</span>
+		</span>
+		<span id="gm-bubble-dislike" class="gm-bubble gm-bubblecontrol gm-bubble-small" data-command='[data-rating="1"]'>
+			<span>
+
+       <img src="svg/gm-bubble-dislike.svg"/>
+
+			</span>
+			<span class="gm-bubble-disliked">
+
+       <img src="svg/gm-bubble-gm-bubble-disliked.svg"/>
+
+			</span>
+		</span>
+    <span id="gm-bubble-layer"></span>
+		<span id="gm-bubble-blacklist" class="gm-bubble gm-bubble-button gm-bubblecontrol" title="Blacklist site">
+
+       <img src="svg/gm-bubble-blacklist.svg"/>
+
+		</span>
+		<span id="gm-bubble-hide" class="gm-bubble gm-bubble-button gm-bubblecontrol" title="Hide for now">
+
+       <img src="svg/gm-bubble-hide.svg"/>
+
+		</span>
+		<span id="gm-bubble-label">
+			<div class="gm-bubble-album-art-container">
+        <img id="gm-bubble-album-art"/>
+      </div>
+			<div class="gm-bubble-song-data-container">
+        <div id="gm-bubble-song-title"></div>
+        <div id="gm-bubble-artist"></div>
+      </div>
+		</span>
+  </div>
+</div>
+
