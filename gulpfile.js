@@ -6,7 +6,8 @@ var gulp = require('gulp'),
   cleanhtml = require("gulp-cleanhtml"),
   inline = require('gulp-inline'),
   uglify = require('gulp-uglify'),
-  minifyCss = require('gulp-minify-css');
+  minifyCss = require('gulp-minify-css'),
+  zip = require('gulp-zip');
 
 gulp.task('default', function () {
   gulp.start('build');
@@ -33,8 +34,20 @@ gulp.task('pages', function () {
     .pipe(gulp.dest('dist/'));
 });
 
+gulp.task('copy-resources', function () {
+  return gulp.src(['app/assets', 'app/images', '*.json'])
+    .pipe(gulp.dest('dist/'));
+});
 
-gulp.task('build', ['styles', 'pages']);
+gulp.task('zip', function () {
+  gulp.src('dist/*')
+    .pipe(zip('package.zip'))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('build', ['styles', 'pages', 'copy-resources']);
+
+gulp.task('package', ['build', 'zip']);
 
 gulp.task('server', function () {
   var connect = require('connect'),
