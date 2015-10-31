@@ -1,0 +1,434 @@
+/*Not converted to sass because you have some weird magic vars {  showMinWidth} that breaks the sass compiler*/
+
+@media print {
+  #gm-bubble-content {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: {  showMinWidth}px)
+{
+#gm-bubble-content {
+  display: none !important;
+}
+
+}
+
+#gm-bubble-content {
+  position: fixed;
+  right: 100px;
+  bottom: 100px;
+
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+opacity: {opacity};
+width: 64px;
+height: 64px;
+z-index: {    zindex  };
+
+-webkit-user-select: none;
+}
+
+#gm-bubble-content * {
+  box-sizing: initial;
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.45s;
+  -webkit-user-select: none;
+  text-align: left;
+}
+
+.gm-bubble {
+  border-radius: 50%;
+  background-color: #ef6c00 !important;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: -webkit-transform 0.50s;
+}
+
+[data-state="disabled"] .gm-bubble {
+  transition: background-color 0 1s;
+  background-color: #333 !important;
+}
+
+[data-state="disabled"][data-hideoption="true"] {
+  display: none;
+}
+
+#gm-bubble-main {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  z-index: 10;
+  top: 4px;
+  left: 4px;
+}
+
+#gm-bubble-content:not([data-state="disabled"]):hover {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1.0;
+  padding: 64px 64px 32px 64px !important;
+  margin: -64px -64px -32px -64px !important;
+  width: 192px;
+  height: 160px;
+  box-sizing: border-box;
+}
+
+#gm-bubble-content:not([data-state="disabled"]).gm-bubble-notify {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1.0;
+}
+
+#gm-bubble-content:not([data-state="disabled"]):hover > #gm-bubble-container {
+  position: absolute;
+  top: 64px;
+  left: 64px;
+  width: 64px;
+  height: 64px;
+}
+
+.gm-bubblecontrol {
+  position: absolute;
+  top: 30%;
+  left: calc(50% - 17px);
+  width: 34px;
+  height: 34px;
+  z-index: 5;
+  opacity: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
+  border: 3px solid transparent;
+  margin: -3px;
+  transform: scale(.2);
+}
+
+.gm-bubblecontrol:hover {
+  /*		border-color:white;
+          box-shadow: 0 0 3px #ef6c00;*/
+}
+
+.gm-bubblecontrol:active {
+  box-shadow: 0 0 3px 1px #ef6c00;
+}
+
+.gm-bubble-button {
+  background-color: #333 !important;
+  width: 22px;
+  height: 22px;
+  border: 3px solid white;
+  margin: -3px;
+  left: calc(50% - 11px);
+}
+
+.gm-bubble-button:hover {
+  box-shadow: 0 0 3px 1px #3c3c3c;
+  z-index: 20;
+}
+
+#gm-bubble-content .gm-bubble-small {
+  transition: -webkit-transform 0.70s 0.25s;
+  width: 22px;
+  height: 22px;
+  left: calc(50% - 11px);
+  opacity: 0;
+}
+
+.gm-bubble-small:hover {
+  z-index: 20;
+}
+
+.gm-bubble-button:hover #gm-bubble-blacklist:before {
+  font-family: sans-serif;
+  display: inline-block;
+  width: 75px;
+  float: right;
+  color: white;
+  background: #333;
+  margin-right: 30px;
+  text-align: right;
+  padding: 2px 7px;
+  border-radius: 3px;
+  top: 10px;
+  border: 2px solid white;
+}
+
+#gm-bubble-content:not([data-state="disabled"]):hover .gm-bubblecontrol {
+  opacity: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Play	icon */
+#gm-bubble-playPause > svg {
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pause icon */
+[data-state="playing"] #gm-bubble-pause {
+  opacity: 1;
+  -webkit-transform: rotate(360deg);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#gm-bubble-content:not([data-state="playing"]) #gm-bubble-play {
+  opacity: 1;
+  -webkit-transform: rotate(360deg);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Play-pause button */
+#gm-bubble-content:not([data-state="disabled"]):hover #gm-bubble-playPause {
+  transition: -webkit-transform 0.50s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.30s, border-color 0.25s;
+  -webkit-transform: translate(0, -65px) rotate(0deg);
+}
+
+/* Next button */
+#gm-bubble-content:not([data-state="disabled"]):hover #gm-bubble-next {
+  transition: -webkit-transform 0.50s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.30s, border-color 0.25s;
+  -webkit-transform: translate(50px, -40px) rotate(0deg);
+}
+
+/* Prev button */
+#gm-bubble-content:not([data-state="disabled"]):hover #gm-bubble-prev {
+  transition: -webkit-transform 0.50s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.30s, border-color 0.25s;
+  -webkit-transform: translate(-50px, -40px) rotate(0deg);
+}
+
+/* Thumbs up */
+#gm-bubble-content[data-active="true"]:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-like, #gm-bubble-like:hover {
+  transition: -webkit-transform 0.70s 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: translate(-28px, 28px);
+  opacity: 1;
+}
+
+#gm-bubble-like .gm-bubble-liked {
+  opacity: 0;
+}
+
+#gm-bubble-content[data-rating="5"] #gm-bubble-like .gm-bubble-liked {
+  opacity: 1;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Thumbs down */
+#gm-bubble-content[data-active="true"]:not([data-state="disabled"]) #gm-bubble-main:hover:not(:active) ~ #gm-bubble-dislike, #gm-bubble-dislike:hover {
+  transition: -webkit-transform 0.70s 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
+  -webkit-transform: translate(28px, 28px);
+  opacity: 1;
+}
+
+#gm-bubble-dislike .gm-bubble-disliked {
+  opacity: 0;
+}
+
+#gm-bubble-content[data-rating="1"] #gm-bubble-dislike .gm-bubble-disliked {
+  opacity: 1;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Blacklist button */
+#gm-bubble-main:active ~ #gm-bubble-blacklist, #gm-bubble-layer:hover ~ #gm-bubble-blacklist, #gm-bubble-blacklist:hover {
+  transition: -webkit-transform 0.70s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: translate(28px, 28px);
+  opacity: 1;
+}
+
+#gm-bubble-layer:hover:before {
+  position: absolute;
+  top: 32px;
+  left: -64px;
+  width: 192px;
+  height: 96px;
+  content: " ";
+  z-index: 15;
+}
+
+#gm-bubble-layer {
+  -webkit-transform: translateZ(0);
+}
+
+/* Hide button */
+#gm-bubble-main:active ~ #gm-bubble-hide, #gm-bubble-layer:hover ~ #gm-bubble-hide, #gm-bubble-hide:hover, #gm-bubble-hide:active {
+  transition: -webkit-transform 0.70s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: translate(-28px, 28px);
+
+  opacity: 1;
+}
+
+#gm-bubble-hide:hover:before {
+  content: " ";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -16px;
+}
+
+#gm-bubble-progress-container {
+  top: 0;
+  left: 0;
+  position: absolute;
+  border-radius: 50%;
+  z-index: 5;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+#gm-bubble-main:active ~ #gm-bubble-layer, #gm-bubble-layer:hover {
+  transition: all 0s 0.4s;
+  z-index: 15;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+#gm-bubble-blacklist:hover:before {
+  content: " ";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 0px;
+}
+
+#gm-bubble-layer:hover ~ .gm-bubble-button {
+  z-index: 20;
+}
+
+#gm-bubble-main:active ~ #gm-bubble-progress-container {
+  transition: box-shadow 0.4s;
+  box-shadow: 0 0 7px #333;
+}
+
+#gm-bubble-like svg, #gm-bubble-dislike svg {
+  width: 16px;
+  height: 16px;
+  fill: white;
+}
+
+#gm-bubble-progress {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  position: initial;
+  background: none;
+}
+
+#gm-bubble-label {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+  display: inline-block;
+  box-sizing: border-box;
+  position: absolute;
+  height: 48px;
+  margin: 0 -64px;
+  width: 192px;
+  top: 135px;
+  opacity: 0;
+  box-shadow: 0 1px 4px -1px #333;
+  visibility: hidden;
+  overflow: hidden;
+  max-width: none;
+  transform: scale(0.95);
+}
+
+#gm-bubble-label > div {
+  display: table-cell;
+}
+
+#gm-bubble-label > .gm-bubble-album-art-container {
+  width: 48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#gm-bubble-label > .gm-bubble-song-data-container {
+  position: absolute;
+  left: 48px;
+  top: 0;
+  padding: 4px 0;
+}
+
+#gm-bubble-content[data-active="true"]:not([data-state="disabled"]):hover #gm-bubble-label, #gm-bubble-content.gm-bubble-notify #gm-bubble-label {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  visibility: initial;
+  width: 192px;
+  transform: translateY(-50px) scale(1);
+}
+
+#gm-bubble-label > div > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  padding: 0 5px;
+  font-family: 'Segoe UI', 'Helvetica', sans-serif;
+  font-weight: 400;
+  max-width: 144px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+#gm-bubble-song-title {
+  font-size: 13px;
+  color: #333;
+  -webkit-text-stroke-width: 0.5px;
+}
+
+#gm-bubble-artist {
+  font-size: 12px;
+  color: #707070;
+}
+
+#gm-bubble-album-art {
+  width: 48px;
+  height: 48px;
+  vertical-align: top;
+}
+
+#gm-bubble-content svg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 3px;
+  -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+
+}
+
+#gm-bubble-main > svg {
+  padding: 0;
+  transform: scale(0.66);
+}
+
+.gm-bubblecontrol:after {
+  box-shadow: 0 0 0 2px #fff;
+  transition: transform 0.01s 0.3s, opacity 0.3s;
+  transform: scale(.8);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  content: '';
+  box-sizing: content-box;
+}
+
+.gm-bubblecontrol:hover:after {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+  opacity: 1;
+
+}
+
+.gm-bubblecontrol:active:after {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1.1);
+}
